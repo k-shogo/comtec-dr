@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require 'pathname'
+require "comtec-dr"
+
+ARGV.each do |arg|
+  path = Pathname arg
+  if path.file? && path.basename.to_s.end_with?('.MOV')
+    puts ComtecDR::MovDemuxer.demux path.to_s
+  elsif path.directory?
+    path.children.each do |child_path|
+      if child_path.file? && child_path.basename.to_s.end_with?('.MOV')
+        puts ComtecDR::MovDemuxer.demux child_path.to_s
+      end
+    end
+  end
+end

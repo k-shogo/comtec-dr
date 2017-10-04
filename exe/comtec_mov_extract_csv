@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require 'pathname'
+require 'csv'
+require "comtec-dr"
+
+ARGV.each do |arg|
+  path = Pathname arg
+  if path.file? && path.basename.to_s.end_with?('.MOV')
+    CSV.open("#{path.basename.to_s}.csv",'w') do |csv|
+      ComtecDR::UdatAnalyzer.analyze(ComtecDR::MovDemuxer.demux path.to_s).each do |line|
+        csv << line
+      end
+    end
+  elsif path.directory?
+    CSV.open("#{path.basename.to_s}.csv",'w') do |csv|
+      path.children.each do |child_path|
+        if child_path.file? && child_path.basename.to_s.end_with?('.MOV')
+          ComtecDR::UdatAnalyzer.analyze(ComtecDR::MovDemuxer.demux child_path.to_s).each do |line|
+            csv << line
+          end
+        end
+      end
+    end
+  end
+end
