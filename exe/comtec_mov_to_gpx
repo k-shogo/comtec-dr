@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require 'pathname'
+require "comtec-dr"
+
+data = []
+
+ARGV.each do |arg|
+  path = Pathname arg
+  if path.file? && path.basename.to_s.end_with?('.MOV')
+
+    gpx = ComtecDR::GpxGenerator.new "#{path.basename.to_s}.gpx"
+    csv = ComtecDR::UdatAnalyzer.analyze(ComtecDR::MovDemuxer.demux path.to_s).map do |line|
+      log = GpsLog.new *line
+      log.csv_line
+    end
+    gpx.add_trkseg csv
+    gpx.write
+  elsif path.directory?
+    gpx = ComtecDR::GpxGenerator.new "#{path.basename.to_s}.gpx"
+    path.children.each do |child_path|
+      if child_path.file? && child_path.basename.to_s.end_with?('.MOV')
+        csv = ComtecDR::UdatAnalyzer.analyze(ComtecDR::MovDemuxer.demux child_path.to_s).map do |line|
+          log = GpsLog.new *line
+          log.csv_line
+        end
+        gpx.add_trkseg csv
+      end
+    end
+    gpx.write
+  end
+end

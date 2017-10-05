@@ -1,12 +1,12 @@
 class GpsLog
-  def initialize lat, lat_s, lon, lon_s, speed, jst, time, x_a, y_a, z_a
+  def initialize lat, lat_s, lon, lon_s, speed, jst, msec, x_a, y_a, z_a
     @lat      = lat
     @lat_sign = lat_s
     @lon      = lon
     @lon_sign = lon_s
     @speed = speed
     @jst   = jst
-    @time  = time
+    @msec  = msec
     @x_acceleration = x_a
     @y_acceleration = y_a
     @z_acceleration = z_a
@@ -28,6 +28,10 @@ class GpsLog
     Time.parse "20#{@jst}}+0900"
   end
 
+  def msec
+    @msec.to_i
+  end
+
   def x_acceleration
     @x_acceleration.to_f/10000
   end
@@ -41,7 +45,7 @@ class GpsLog
   end
 
   def csv_line
-    [lat, lon, speed, jst, x_acceleration, y_acceleration, z_acceleration]
+    [lat, lon, speed, jst, msec, x_acceleration, y_acceleration, z_acceleration]
   end
 
   private
