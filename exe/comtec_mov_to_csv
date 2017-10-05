@@ -8,7 +8,7 @@ require "comtec-dr"
 ARGV.each do |arg|
   path = Pathname arg
   if path.file? && path.basename.to_s.end_with?('.MOV')
-    CSV.open("#{path.basename.to_s}.csv",'w') do |csv|
+    CSV.open("#{path.basename.to_s.gsub('.MOV','')}.csv",'w') do |csv|
       ComtecDR::UdatAnalyzer.analyze(ComtecDR::MovDemuxer.demux path.to_s).each do |line|
         log = GpsLog.new *line
         csv << log.csv_line
