@@ -33,15 +33,15 @@ class GpsLog
   end
 
   def x_acceleration
-    @x_acceleration.to_f/10000
+    @x_acceleration.to_f/1000
   end
 
   def y_acceleration
-    @y_acceleration.to_f/10000
+    @y_acceleration.to_f/1000
   end
 
   def z_acceleration
-    @z_acceleration.to_f/10000
+    @z_acceleration.to_f/1000
   end
 
   def csv_line
