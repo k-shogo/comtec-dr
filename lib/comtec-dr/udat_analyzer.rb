@@ -15,7 +15,7 @@ module ComtecDR
 
     class << self
       def analyze udat
-        udat.gsub(/[[:cntrl:]]/,"").scan(LOG_PATTERN)
+        udat.to_s.gsub(/[[:cntrl:]]/,"").scan(LOG_PATTERN)
       end
     end
   end

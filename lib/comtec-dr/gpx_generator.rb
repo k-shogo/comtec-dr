@@ -13,9 +13,19 @@ module ComtecDR
         'xsi:schemaLocation' => 'http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd'
       })
       @doc.add_element(@gpx)
+    end
 
+    def add_track csv = nil
       @trk = REXML::Element.new('trk')
       @gpx.add_element(@trk)
+
+      trkseg = REXML::Element.new('trkseg')
+      @trk.add_element(trkseg)
+      csv.each do |line|
+        trkpt = REXML::Element.new('trkpt')
+        trkpt.add_attributes({'lat' => line[0], 'lon' => line[1]})
+        trkseg.add_element(trkpt)
+      end if !csv.nil?
     end
 
     def add_trkseg csv
@@ -27,7 +37,6 @@ module ComtecDR
         trkseg.add_element(trkpt)
       end
     end
-
 
     def write
       File.open(@filename, 'w') do |file|

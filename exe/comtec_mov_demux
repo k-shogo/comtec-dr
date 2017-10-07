@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 
-require "bundler/setup"
+require 'bundler/setup'
 require 'pathname'
-require "comtec-dr"
+require 'comtec-dr'
 
 ARGV.each do |arg|
   path = Pathname arg

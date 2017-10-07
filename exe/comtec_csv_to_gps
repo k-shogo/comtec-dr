@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'pathname'
+require 'csv'
+require 'comtec-dr'
+
+ARGV.each do |arg|
+  path = Pathname arg
+  if path.file? && path.basename.to_s.end_with?('.csv')
+    gpx = ComtecDR::GpxGenerator.new "#{path.basename.to_s.gsub('.csv','')}.gpx"
+    csv = CSV.read path.to_s
+    gpx.add_track csv
+    gpx.write
+  elsif path.directory?
+    gpx = ComtecDR::GpxGenerator.new "#{path.basename.to_s}.gpx"
+    csvs = []
+    path.children.each do |child_path|
+      if child_path.file? && child_path.basename.to_s.end_with?('.csv')
+        csv = CSV.read child_path.to_s
+        csvs << csv
+      end
+    end
+    csvs.each do |csv|
+      gpx.add_track csv
+    end
+    gpx.write
+  end
+end
