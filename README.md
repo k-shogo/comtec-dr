@@ -1,6 +1,7 @@
 # ComtecDr
 
-コムテックのドライブレコーダーの動画からGPSログデータを取り出します
+コムテックのドライブレコーダーの動画からGPSログデータを取り出すためのプログラムです。
+[コムテックのHDR-352GH](http://www.e-comtec.co.jp/0_recorder/hdr352gh.html)で動作確認していますが、他の型番でも動作するかもしれません。
 
 ## Installation
 

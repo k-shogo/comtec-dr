@@ -11,7 +11,7 @@ ARGV.each do |arg|
     CSV.open("#{path.basename.to_s.gsub('.MOV','')}.csv",'w') do |csv|
       ComtecDR::UdatAnalyzer.analyze(ComtecDR::MovDemuxer.demux path.to_s).each do |line|
         log = GpsLog.new *line
-        csv << log.csv_line
+        csv << [*log.csv_line, path.basename.to_s]
       end
     end
   elsif path.directory?
@@ -20,7 +20,7 @@ ARGV.each do |arg|
         if child_path.file? && child_path.basename.to_s.end_with?('.MOV')
           ComtecDR::UdatAnalyzer.analyze(ComtecDR::MovDemuxer.demux child_path.to_s).each do |line|
             log = GpsLog.new *line
-            csv << log.csv_line
+            csv << [*log.csv_line, child_path.basename.to_s]
           end
         end
       end
