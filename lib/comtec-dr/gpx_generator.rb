@@ -15,19 +15,29 @@ module ComtecDR
       @doc.add_element(@gpx)
     end
 
-    def add_track csv = nil
+    def add_track track = nil
       @trk = REXML::Element.new('trk')
       @gpx.add_element(@trk)
 
-      add_trkseg csv if !csv.nil?
+      add_trkseg track if !track.nil?
     end
 
-    def add_trkseg csv
+    def add_trkseg track
       trkseg = REXML::Element.new('trkseg')
       @trk.add_element(trkseg)
-      csv.each do |line|
+
+      track.track.each do |t|
         trkpt = REXML::Element.new('trkpt')
-        trkpt.add_attributes({'lat' => line[0], 'lon' => line[1]})
+        trkpt.add_attributes({'lat' => t.lat, 'lon' => t.lon})
+
+        time = REXML::Element.new('time')
+        time.add_text(t.jst.utc.iso8601)
+        trkpt.add_element(time)
+
+        speed = REXML::Element.new('speed')
+        speed.add_text((t.speed.to_f * 1000 / 3600).to_s)
+        trkpt.add_element(speed)
+
         trkseg.add_element(trkpt)
       end
     end
