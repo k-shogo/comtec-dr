@@ -14,8 +14,8 @@ module ComtecDR
       new_track = self.class.new
       prev = []
       self.track.each do |t|
-        new_track << t unless t[0..2] == prev[0..2]
-        prev = t
+        new_track << t unless t.csv_line[0..2] == prev
+        prev = t.csv_line[0..2]
       end
       new_track
     end
@@ -24,8 +24,8 @@ module ComtecDR
       def analyze file_path
         self.new.tap do |track|
           ComtecDR::UdatAnalyzer.analyze(ComtecDR::MovDemuxer.demux file_path).each do |line|
-            log = ComtecDR::GpsLog.new *line
-            track << [*log.csv_line, Pathname.new(file_path).basename.to_s]
+            log = ComtecDR::GpsLog.new *[*line, Pathname.new(file_path).basename.to_s]
+            track << log
           end
         end
       end
