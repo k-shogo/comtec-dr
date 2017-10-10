@@ -8,7 +8,7 @@ ARGV.each do |arg|
   if path.file? && path.basename.to_s.end_with?('.MOV')
     gpx = ComtecDR::GpxGenerator.new "#{path.basename.to_s.gsub('.MOV','')}.gpx"
     track = ComtecDR::GpsTrack.analyze path.to_s
-    gpx.add_track track.compress.track
+    gpx.add_track track.compress
     gpx.write
   elsif path.directory?
     gpx = ComtecDR::GpxGenerator.new "#{path.basename.to_s}.gpx"
@@ -16,7 +16,7 @@ ARGV.each do |arg|
     path.children(with_directory: false).each do |child_path|
       if child_path.file? && child_path.basename.to_s.end_with?('.MOV')
         track = ComtecDR::GpsTrack.analyze child_path.to_s
-        gpx.add_trkseg track.compress.track
+        gpx.add_trkseg track.compress
       end
     end
     gpx.write
