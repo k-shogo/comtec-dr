@@ -1,6 +1,6 @@
 module ComtecDR
   class GpsLog
-    def initialize lat, lat_s, lon, lon_s, speed, jst, msec, x_a, y_a, z_a
+    def initialize lat, lat_s, lon, lon_s, speed, jst, msec, x_a, y_a, z_a, filename
       @lat      = lat
       @lat_sign = lat_s
       @lon      = lon
@@ -11,6 +11,7 @@ module ComtecDR
       @x_acceleration = x_a
       @y_acceleration = y_a
       @z_acceleration = z_a
+      @filename = filename
     end
 
     def lat
@@ -46,7 +47,7 @@ module ComtecDR
     end
 
     def csv_line
-      [lat, lon, speed, jst, msec, x_acceleration, y_acceleration, z_acceleration]
+      [lat, lon, speed, jst, msec, x_acceleration, y_acceleration, z_acceleration, @filename]
     end
 
     private
