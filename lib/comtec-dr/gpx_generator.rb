@@ -19,13 +19,7 @@ module ComtecDR
       @trk = REXML::Element.new('trk')
       @gpx.add_element(@trk)
 
-      trkseg = REXML::Element.new('trkseg')
-      @trk.add_element(trkseg)
-      csv.each do |line|
-        trkpt = REXML::Element.new('trkpt')
-        trkpt.add_attributes({'lat' => line[0], 'lon' => line[1]})
-        trkseg.add_element(trkpt)
-      end if !csv.nil?
+      add_trkseg csv if !csv.nil?
     end
 
     def add_trkseg csv
