@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 require 'bundler/setup'
-require 'pathname'
 require 'comtec-dr'
 
 ARGV.each do |arg|
@@ -9,7 +8,7 @@ ARGV.each do |arg|
   if path.file? && path.basename.to_s.end_with?('.MOV')
     puts ComtecDR::MovDemuxer.demux path.to_s
   elsif path.directory?
-    path.children.each do |child_path|
+    path.children(with_directory: false).each do |child_path|
       if child_path.file? && child_path.basename.to_s.end_with?('.MOV')
         puts ComtecDR::MovDemuxer.demux child_path.to_s
       end
