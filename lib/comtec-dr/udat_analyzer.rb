@@ -1,7 +1,7 @@
 module ComtecDR
   class UdatAnalyzer
     LOG_PATTERN = /
-    A
+    (?:[AV])
     (?<lat>[\d.]*)(?<lat_sign>[NS])
     (?<lon>[\d.]*)(?<lon_sign>[EW])
     (?<speed>\d{4})
