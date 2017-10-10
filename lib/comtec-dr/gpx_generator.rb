@@ -3,6 +3,7 @@ module ComtecDR
     def initialize filename
       @filename = filename
       @doc = REXML::Document.new
+      @doc << REXML::XMLDecl.new('1.0', 'UTF-8')
       @gpx = REXML::Element.new('gpx')
 
       @gpx.add_attributes({
